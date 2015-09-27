@@ -16,7 +16,7 @@ public class TransaccionFromUI {
 	
 	public Transaccion asTransaccion() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		@SuppressWarnings("unchecked")
-		Class<Dinero> tipoDiner = (Class<Dinero>) Class.forName("registrodecaja.dinero."+tipoMoneda);
+		Class<Dinero> tipoDiner = (Class<Dinero>) Class.forName("registrodecaja.model.dinero."+tipoMoneda);
 		Dinero dinero = tipoDiner.newInstance();
 		dinero.setCantidad(cantidad);
 		return new Transaccion(dinero, descripcion, TipoTransaccion.valueOf(tipoTransaccion), fecha, usuario);

@@ -12,12 +12,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name="Dinero")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Dinero {
 
 	@Id
 	@GeneratedValue
-	@Column(name="dienero_id")
+	@Column(name="dinero_id")
 	private int id;
 	
 	@Column(name = "cantidad")

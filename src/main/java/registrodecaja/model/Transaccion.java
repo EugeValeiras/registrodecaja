@@ -29,7 +29,7 @@ public class Transaccion {
 	
 	@NotNull
 	@OneToOne
-	@JoinColumn( name = "dienero_id" )
+	@JoinColumn( name = "dinero_id" )
 	@Cascade({CascadeType.SAVE_UPDATE})
 	private Dinero dinero;
 
@@ -58,6 +58,7 @@ public class Transaccion {
 	public static void removeTransaccion(Transaccion trans){
 		listaInventada.remove(trans);
 	}
+	
 	public static Dinero getMontoTransaccionDeTipo(String tipoMoneda) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		@SuppressWarnings("unchecked")
 		Class<Dinero> tipoDiner = (Class<Dinero>) Class.forName("registrodecaja.dinero."+tipoMoneda);
@@ -127,5 +128,11 @@ public class Transaccion {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

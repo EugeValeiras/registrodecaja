@@ -1,14 +1,15 @@
-package registrodecaja.dinero;
+package registrodecaja.model.dinero;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 import registrodecaja.model.Dinero;
 
 @Entity
-@Table(name="Dinero")
-@DiscriminatorValue("D")
+@DiscriminatorValue(value="D")
 public class Dolar extends Dinero{
 
 	public Dolar(){

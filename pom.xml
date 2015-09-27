@@ -152,14 +152,14 @@
 			<artifactId>handlebars</artifactId>
 			<version>${handlebars-version}</version>
 		</dependency>
-		
+
 		<!-- DataBase Pool -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>${dbcp.version}</version>
 		</dependency>
-		
+
 		<!-- MySql Driver -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -182,6 +182,11 @@
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
 		</dependency>
 
 	</dependencies>
