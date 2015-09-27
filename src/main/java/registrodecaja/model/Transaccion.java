@@ -1,18 +1,48 @@
-package registrodecaja.transaccion;
+package registrodecaja.model;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import registrodecaja.dinero.Argentino;
-import registrodecaja.dinero.Dinero;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import registrodecaja.transaccion.TipoTransaccion;
+
+@Entity
+@Table(name = "Transaccion")
 public class Transaccion {
 
+	@Id
+	@GeneratedValue
+	@Column(name = "id", unique = true)
+	private int id;
+	
+	@NotNull
+	@OneToOne
+	@JoinColumn( name = "dienero_id" )
+	@Cascade({CascadeType.SAVE_UPDATE})
 	private Dinero dinero;
+
+	@Column(name = "descipcion")
 	private String descripcion;
+
+	@Column(name = "tipo_transaccion")
 	private TipoTransaccion tipoTransaccion;
+	
+	@Column(name = "fecha")
 	private Date fecha;
+	
+	@Column(name = "usuario")
 	private String usuario;
 	
 	private static List<Transaccion> listaInventada = new ArrayList<Transaccion>();

@@ -2,7 +2,8 @@ package registrodecaja.transaccion;
 
 import java.sql.Date;
 
-import registrodecaja.dinero.Dinero;
+import registrodecaja.model.Dinero;
+import registrodecaja.model.Transaccion;
 
 public class TransaccionFromUI {
 	

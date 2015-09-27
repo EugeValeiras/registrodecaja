@@ -2,8 +2,6 @@ package registrodecaja.controller;
 
 import java.util.List;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -15,25 +13,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import registrodecaja.dinero.Dinero;
-import registrodecaja.transaccion.Transaccion;
+import registrodecaja.model.Dinero;
+import registrodecaja.model.Transaccion;
 import registrodecaja.transaccion.TransaccionFromUI;
 
 @Controller
-@EnableAutoConfiguration
 @Scope("session")
-@RequestMapping("/")
 public class AppController {
-
-	public static void main(String[] args) throws Exception {
-		Transaccion.initTransacciones();
-		SpringApplication.run(AppController.class, args);
-	}
 	
 	@RequestMapping(value = "/" ,method = RequestMethod.GET)
 	public ModelAndView root(){
 		ModelAndView model = new ModelAndView();
-		model.setViewName("programa.html");
+		model.setViewName("programa");
 		return model;
 	}
 	
