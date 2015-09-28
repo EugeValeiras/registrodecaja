@@ -41,8 +41,10 @@ public class TransaccionDao {
 		Transaccion trans = new Transaccion();
 		trans.setId(id);
 		openSession().delete(trans);
-	}
+	} 
 	
+	
+	//TODO MEJORAR ESTE METODO QUE NO ESTA BIEN HECHO
 	public Dinero getMontoTransaccionDeTipo(String tipoMoneda) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		@SuppressWarnings("unchecked")
 		Class<Dinero> tipoDiner = (Class<Dinero>) Class.forName("registrodecaja.model.dinero."+tipoMoneda);
@@ -50,15 +52,16 @@ public class TransaccionDao {
 		dinero.setCantidad(0);
 		
 		Criteria criteria = openSession().createCriteria(Transaccion.class, "trans");
-		criteria.add(Restrictions.eq("trans.dinero", tipoDiner));
 		List<Transaccion> list = criteria.list();
 				
 		for(Transaccion transaccion : list){
+			if(transaccion.getDinero().getClass().equals(tipoDiner)){
 				if(transaccion.getTipoTransaccion().equals(TipoTransaccion.INGRESO)){
 					dinero.setCantidad(dinero.getCantidad() + transaccion.getDinero().getCantidad()); 
 				} else {
 					dinero.setCantidad(dinero.getCantidad() - transaccion.getDinero().getCantidad()); 
 				}
+			}
 		}
 		return dinero;
 	}
