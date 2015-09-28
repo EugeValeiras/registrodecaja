@@ -5,9 +5,9 @@
 <html lang="en" ng-app="app">
 <head>
 <meta charset="utf-8">
-<title>Recetas en Angular</title>
+<title>Registro de Caja</title>
 <head>
-
+  
 <!-- JQUERY -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/node_modules/jquery/dist/jquery.min.js"></script>
 
@@ -18,7 +18,7 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
 
-<!-- My CSS -->
+<!-- My CSS --> 
 
 <!-- My Angular App  -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/entity/dinero.js"></script>

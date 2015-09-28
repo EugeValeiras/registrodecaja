@@ -8,26 +8,62 @@
 	<name>Registro de caja</name>
 
 	<properties>
-		<junit-Version>4.11</junit-Version>
-		<junit-dep>4.10</junit-dep>
-		<spring-version>4.1.6.RELEASE</spring-version>
-		<handlebars-version>2.2.1</handlebars-version>
-		<mustache-version>1.0</mustache-version>
-		<jstl-version>1.2</jstl-version>
-		<spring-boot-version>1.2.5.RELEASE</spring-boot-version>
-		<hibernate.version>4.1.5.Final</hibernate.version>
-		<hibernate-validator>4.2.0.Final</hibernate-validator>
-		<handlebars-version>2.2.1</handlebars-version>
+		<javaasist>3.12.1.GA</javaasist>
 		<org.apache.httpcomponents>4.3.2</org.apache.httpcomponents>
-		<dbcp.version>1.4</dbcp.version>
-		<mysql.connector.version>5.1.32</mysql.connector.version>
 		<jstl>1.2</jstl>
 		<javax.servlet-api>3.0.1</javax.servlet-api>
 		<javax.servlet>1.2</javax.servlet>
+		<org.slf4j>1.7.5</org.slf4j>
+		<log4j>1.2.16</log4j>
+		<hibernate.version>4.1.5.Final</hibernate.version>
+		<hibernate-validator>4.2.0.Final</hibernate-validator>
+		<handlebars-version>2.2.1</handlebars-version>
+		<dbcp.version>1.4</dbcp.version>
+		<mysql.connector.version>5.1.32</mysql.connector.version>
+		<cglib>2.2.2</cglib>
+
+		<spring-version>4.0.3.RELEASE</spring-version>
+
+		<junit-Version>4.11</junit-Version>
+		<junit-dep>4.10</junit-dep>
+
+		<mustache-version>1.0</mustache-version>
+		<jstl-version>1.2</jstl-version>
+		<spring-boot-version>1.2.5.RELEASE</spring-boot-version>
+		<javax-mail-version>1.4</javax-mail-version>
+		<mustache-spring-view-version>1.0</mustache-spring-view-version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${cglib}</version>
+		</dependency>
 
+		<!-- lof4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${org.slf4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${org.slf4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j}</version> <!-- 1.2.16 -->
+		</dependency>
+
+		<!-- HASTA ACA -->
 		<!-- Use Apache HttpClient as HTTP Client -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -52,7 +88,7 @@
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
-			<version>1.4</version>
+			<version>${javax-mail-version}</version>
 		</dependency>
 
 		<!-- JSON READER -->
@@ -114,11 +150,21 @@
 			<version>${spring-version}</version>
 		</dependency>
 
-		<!-- Spring fast BOOT -->
+		<!-- JACKSON -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${spring-boot-version}</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.1.1</version>
 		</dependency>
 
 		<!-- JSTL -->
@@ -144,7 +190,7 @@
 		<dependency>
 			<groupId>com.github.sps.mustache</groupId>
 			<artifactId>mustache-spring-view</artifactId>
-			<version>1.0</version>
+			<version>${mustache-spring-view-version}</version>
 		</dependency>
 
 		<dependency>
@@ -208,7 +254,29 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.github.jsimone</groupId>
+									<artifactId>webapp-runner</artifactId>
+									<version>7.0.57.2</version>
+									<destFileName>webapp-runner.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
