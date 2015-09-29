@@ -22,11 +22,17 @@ app.controller('appController', function($scope, $timeout, $interval, $compile, 
 	this.totalPesosArgentinos;
 	this.totalPesosUruguayos;
 	this.totalDolares;
+	this.loadingTable = true;
+	this.loadingValueArgentinos = true;
+	this.loadingValueUruguayos = true;
+	this.loadingValueDolares = true;
 	
 	/*On Load Methods*/
 	this.getTransacciones = function() {
+		this.loadingTable = false;
 		appService.getTransacciones(function(data) {
 			self.transacciones = data;
+			self.loadingTable = true;
 		});
 	};
 	this.getTransacciones();
@@ -40,14 +46,21 @@ app.controller('appController', function($scope, $timeout, $interval, $compile, 
 	};
 	
 	this.actualizarCaja = function(){
+		self.loadingValueArgentinos = false;
+		self.loadingValueUruguayos = false;
+		self.loadingValueDolares = false;
+
 		appService.argentinosEnCaja(function(data){
 			self.totalPesosArgentinos = data;
+			self.loadingValueArgentinos = true;
 		});
 		appService.uruguayosEnCaja(function(data){
 			self.totalPesosUruguayos = data;
+			self.loadingValueUruguayos = true;
 		});
 		appService.dolaresEnCaja(function(data){
 			self.totalDolares = data;
+			self.loadingValueDolares = true;
 		});
 	};
 	this.actualizarCaja();

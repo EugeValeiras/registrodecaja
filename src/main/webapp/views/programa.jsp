@@ -47,7 +47,8 @@
 	 	<button ng-disabled="" ng-click="appCtrl.crearTransaccion()" class="" type="submit">Crear Transaccion!</button>
 	</div>
 
-	<div class="">
+	<img ng-show="!appCtrl.loadingTable" src="${pageContext.request.contextPath}/resources/gif/loader.gif" />
+	<div class="" ng-show="appCtrl.loadingTable">
 		<table class="">
 			<tbody>
 				<tr>
@@ -69,10 +70,16 @@
 			</tbody>
 		</table>
 	</div>
+	 
 	
-	<span ng-bind="appCtrl.totalPesosArgentinos"></span><br>
-	<span ng-bind="appCtrl.totalPesosUruguayos"></span><br>
-	<span ng-bind="appCtrl.totalDolares"></span><br>
+	<div>
+		<span>Total pesos: </span><span ng-show="appCtrl.loadingValueArgentinos" ng-bind="appCtrl.totalPesosArgentinos"></span>
+		<img ng-show="!appCtrl.loadingValueArgentinos" src="${pageContext.request.contextPath}/resources/gif/loader.gif" /><br>
+		<span>Total uruguayos: </span><span ng-show="appCtrl.loadingValueUruguayos" ng-bind="appCtrl.totalPesosUruguayos"></span>
+		<img ng-show="!appCtrl.loadingValueUruguayos" src="${pageContext.request.contextPath}/resources/gif/loader.gif" /><br>
+		<span>Total dolares: </span><span ng-show="appCtrl.loadingValueDolares" ng-bind="appCtrl.totalDolares"></span>
+		<img ng-show="!appCtrl.loadingValueDolares" src="${pageContext.request.contextPath}/resources/gif/loader.gif" /><br>
+	</div>
 	
 	<div class="alert alert-danger animate-repeat" ng-repeat="error in appCtrl.errors">{{error}}</div>
 
