@@ -3,6 +3,7 @@ package registrodecaja.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -14,15 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import registrodecaja.form.LoginForm;
 import registrodecaja.model.Dinero;
 import registrodecaja.model.Transaccion;
-import registrodecaja.model.dinero.Argentino;
 import registrodecaja.transaccion.TransaccionDao;
 import registrodecaja.transaccion.TransaccionFromUI;
 
 @Controller
 @Scope("session")
 public class AppController {
+	
+	String logAcc = null;
 	
 	private final TransaccionDao transaccionDao;
 
@@ -32,24 +35,88 @@ public class AppController {
 	}
 	
 	@RequestMapping(value = "/" ,method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public String rootPath() throws Exception{
+
+		if(logAcc != null){
+			return "/"+logAcc;
+		} else {
+			return "redirect:/login";
+		}
+	}
+	
+	@RequestMapping(value = "/login" ,method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseBody
+	public String login(@RequestBody LoginForm form) throws Exception{
+
+		if(form.username.equals("evaleiras") && form.password.equals("password")){
+			logAcc = form.username;
+			return "{\"status\" : 200, \"username\" : \"evaleiras\"}";
+		} else if(form.username.equals("rgonzalez") && form.password.equals("password")){
+			logAcc = form.username;
+			return "{\"status\" : 200, \"username\" : \"rgonzalez\"}";
+		} else if(form.username.equals("oficina") && form.password.equals("password")){
+			logAcc = form.username;
+			return "{\"status\" : 200, \"username\" : \"oficina\"}";
+		} else {
+			throw new Exception();
+		}
+	}
+
+	@RequestMapping(value = {"/login"} ,method = RequestMethod.GET)
+	public ModelAndView login(){
+		ModelAndView model = new ModelAndView();
+		model.setViewName("login");
+		return model;
+	}
+
+	@RequestMapping(value = {"/logout"} ,method = RequestMethod.GET)
+	public ModelAndView logout(){
+		logAcc = null;
+		ModelAndView model = new ModelAndView();
+		model.setViewName("login");
+		return model;
+	}
+	
+	@RequestMapping(value = {"/evaleiras", "/rgonzalez", "/oficina"} ,method = RequestMethod.GET)
 	public ModelAndView root(){
 		ModelAndView model = new ModelAndView();
-		model.setViewName("programa");
-		return model;
+		if(logAcc != null){
+			model.setViewName("programa");
+			return model;
+		} else {
+			model.setViewName("login");
+			return model;
+		}
 	}
 	
 	@RequestMapping(value = "/getAllTransaccion" ,method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
 	public List<Transaccion> getAllTransacciones() {
-		return transaccionDao.getAllTransacciones();
+		return transaccionDao.getAllTransacciones(null);
+	}
+	
+	@RequestMapping(value = "/getAllTransaccion/{owner}" ,method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseBody
+	public List<Transaccion> getAllTransacciones(@PathVariable("owner") String owner) {
+		return transaccionDao.getAllTransacciones(owner);
 	}
 	
 	@RequestMapping(value = "/crearTransaccion" ,method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
 	public void crearTransaccion(@RequestBody TransaccionFromUI transaccionFromUI) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		transaccionDao.addTransaccion(transaccionFromUI.asTransaccion());
+		transaccionDao.addTransaccion(transaccionFromUI.asTransaccion(), logAcc);
+	}
+	
+	@RequestMapping(value = "/crearTransaccion/{owner}" ,method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseBody
+	public void crearTransaccion(@PathVariable("owner") String owner,@RequestBody TransaccionFromUI transaccionFromUI) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		transaccionDao.addTransaccion(transaccionFromUI.asTransaccion(), owner);
 	}
 	
 	@RequestMapping(value = "/borrarTransaccion/{id}" ,method = RequestMethod.GET)
@@ -59,11 +126,11 @@ public class AppController {
 		
 	}
 	
-	@RequestMapping(value = "/getCantidad/{tipoMoneda}" ,method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
+	@RequestMapping(value = "/getCantidad/{username}/{tipoMoneda}" ,method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
 	@ResponseStatus(value = HttpStatus.OK)
 	@ResponseBody
-	public String getCantidad(@PathVariable("tipoMoneda") String tipoMoneda) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-		Dinero dinero = transaccionDao.getMontoTransaccionDeTipo(tipoMoneda);
+	public String getCantidad(@PathVariable("tipoMoneda") String tipoMoneda, @PathVariable("username") String username) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		Dinero dinero = transaccionDao.getMontoTransaccionDeTipo(tipoMoneda, username);
 		return dinero.toString();
 	}
 	
@@ -73,5 +140,4 @@ public class AppController {
 	public String evaluarDolar() {
 		return null;
 	}
-	
 }

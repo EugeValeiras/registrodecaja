@@ -1,8 +1,8 @@
 'use strict';
 
-var app = angular.module('app', [ 'ngAnimate']);
+var app = angular.module('app', [ 'ngAnimate', 'ui.bootstrap', 'ngCookies']);
 
-app.controller('appController', function($scope, $timeout, $interval, $compile, appService) {
+app.controller('appController', function($scope, $timeout, $interval, $compile, $cookies, $window, appService) {
 	
 	var self = this;
 	
@@ -12,6 +12,8 @@ app.controller('appController', function($scope, $timeout, $interval, $compile, 
 	this.tiposDeMonedas = [{value: 'Argentino', toString: 'Peso Argentino' }, {value: 'Uruguayo', toString: 'Peso Uruguayo' }, {value: 'Dolar', toString: 'Dolar' }];
 	this.tiposDeTansaccion = [{value: 'INGRESO', toString : 'Ingreso'}, {value: 'EGRESO', toString : 'Egreso'}];
 	this.usuarios = ['Rodrigo', 'Eugenio'];
+	this.username = $cookies.get('username')
+	
 	
 	this.selectedCantidad = 0;
 	this.selectedTipoMoneda;
@@ -30,7 +32,7 @@ app.controller('appController', function($scope, $timeout, $interval, $compile, 
 	/*On Load Methods*/
 	this.getTransacciones = function() {
 		this.loadingTable = false;
-		appService.getTransacciones(function(data) {
+		appService.getTransaccionesOf(self.username, function(data) {
 			self.transacciones = data;
 			self.loadingTable = true;
 		});
@@ -38,7 +40,7 @@ app.controller('appController', function($scope, $timeout, $interval, $compile, 
 	this.getTransacciones();
 	
 	this.crearTransaccion = function(){
-		this.transaccion = new transaccionFromUI(self.selectedTipoMoneda, self.selectedTipoTransaccion, self.selectedUsuario, self.selectedCantidad, self.selectedDescripcion)
+		this.transaccion = new transaccionFromUI(self.selectedTipoMoneda, self.selectedTipoTransaccion, self.selectedUsuario, self.selectedCantidad, self.selectedDescripcion, self.username)
 		appService.crearTransaccion(this.transaccion, function(data){
 			self.getTransacciones();
 			self.actualizarCaja();
@@ -50,15 +52,17 @@ app.controller('appController', function($scope, $timeout, $interval, $compile, 
 		self.loadingValueUruguayos = false;
 		self.loadingValueDolares = false;
 
-		appService.argentinosEnCaja(function(data){
+		appService.argentinosEnCaja(self.username, function(data){
 			self.totalPesosArgentinos = data;
 			self.loadingValueArgentinos = true;
 		});
-		appService.uruguayosEnCaja(function(data){
+		
+		appService.uruguayosEnCaja(self.username, function(data){
 			self.totalPesosUruguayos = data;
 			self.loadingValueUruguayos = true;
 		});
-		appService.dolaresEnCaja(function(data){
+		
+		appService.dolaresEnCaja(self.username, function(data){
 			self.totalDolares = data;
 			self.loadingValueDolares = true;
 		});

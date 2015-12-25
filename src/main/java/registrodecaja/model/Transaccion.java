@@ -28,8 +28,8 @@ public class Transaccion {
 	private int id;
 	
 	@NotNull
-	@OneToOne
 	@JoinColumn( name = "dinero_id" )
+	@OneToOne
 	@Cascade({CascadeType.SAVE_UPDATE})
 	private Dinero dinero;
 
@@ -45,49 +45,21 @@ public class Transaccion {
 	@Column(name = "usuario")
 	private String usuario;
 	
-	private static List<Transaccion> listaInventada = new ArrayList<Transaccion>();
-	public static void initTransacciones(){
-//		Transaccion.listaInventada.add(new Transaccion(new Argentino(222), "Chino", TipoTransaccion.EGRESO, new Date(2015, 10, 10), "Gurkita"));
-	}
-	public static List<Transaccion> getAllTransacciones(){
-		return listaInventada;
-	}
-	public static void addTransaccion(Transaccion trans){
-		listaInventada.add(trans);
-	}
-	public static void removeTransaccion(Transaccion trans){
-		listaInventada.remove(trans);
-	}
-	
-	public static Dinero getMontoTransaccionDeTipo(String tipoMoneda) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-		@SuppressWarnings("unchecked")
-		Class<Dinero> tipoDiner = (Class<Dinero>) Class.forName("registrodecaja.dinero."+tipoMoneda);
-		Dinero dinero = tipoDiner.newInstance();
-		dinero.setCantidad(0);
-		
-		for(Transaccion transaccion : listaInventada){
-			if(transaccion.getDinero().getClass().getSimpleName().equals(tipoMoneda)){
-				if(transaccion.tipoTransaccion.equals(TipoTransaccion.INGRESO)){
-					dinero.setCantidad(dinero.getCantidad() + transaccion.getDinero().getCantidad()); 
-				} else {
-					dinero.setCantidad(dinero.getCantidad() - transaccion.getDinero().getCantidad()); 
-				}
-			}
-		}
-		return dinero;
-	}
+	@Column(name = "owner")
+	private String owner;
 	
 	public Transaccion(){
 	
 	}
 
-	public Transaccion(Dinero dinero, String descripcion, TipoTransaccion tipoTransaccion, Date fecha, String usuario) {
+	public Transaccion(Dinero dinero, String descripcion, TipoTransaccion tipoTransaccion, Date fecha, String usuario, String owner) {
 		super();
 		this.dinero = dinero;
 		this.descripcion = descripcion;
 		this.tipoTransaccion = tipoTransaccion;
 		this.fecha = fecha;
 		this.usuario = usuario;
+		this.owner = owner;
 	}
 
 	public Dinero getDinero() {
@@ -135,4 +107,13 @@ public class Transaccion {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+	
 }

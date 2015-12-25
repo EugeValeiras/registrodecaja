@@ -71,7 +71,6 @@
 		</table>
 	</div>
 	 
-	
 	<div>
 		<span>Total pesos: </span><span ng-show="appCtrl.loadingValueArgentinos" ng-bind="appCtrl.totalPesosArgentinos"></span>
 		<img ng-show="!appCtrl.loadingValueArgentinos" src="${pageContext.request.contextPath}/resources/gif/loader.gif" /><br>
@@ -82,6 +81,7 @@
 	</div>
 	
 	<div class="alert alert-danger animate-repeat" ng-repeat="error in appCtrl.errors">{{error}}</div>
+	<a href="/logout">Logout</a>
 
 </body>
 </html>

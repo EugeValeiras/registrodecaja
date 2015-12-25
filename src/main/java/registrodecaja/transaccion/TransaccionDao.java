@@ -31,12 +31,20 @@ public class TransaccionDao {
 	public List<Transaccion> getAllTransacciones(){
 		return openSession().createCriteria(Transaccion.class).list();
 	}
-	public void addTransaccion(Transaccion trans){
+
+	public List<Transaccion> getAllTransacciones(String owner){
+		return openSession().createCriteria(Transaccion.class).add(Restrictions.eq("owner", owner)).list();
+	}
+	
+	public void addTransaccion(Transaccion trans, String logAcc){
+		trans.setOwner(logAcc);
 		openSession().save(trans);
 	}
+	
 	public void removeTransaccion(Transaccion trans){
 		openSession().delete(trans);
 	}
+	
 	public void removeTransaccionByID(int id){
 		Transaccion trans = new Transaccion();
 		trans.setId(id);
@@ -45,13 +53,13 @@ public class TransaccionDao {
 	
 	
 	//TODO MEJORAR ESTE METODO QUE NO ESTA BIEN HECHO
-	public Dinero getMontoTransaccionDeTipo(String tipoMoneda) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	public Dinero getMontoTransaccionDeTipo(String tipoMoneda, String username) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		@SuppressWarnings("unchecked")
 		Class<Dinero> tipoDiner = (Class<Dinero>) Class.forName("registrodecaja.model.dinero."+tipoMoneda);
 		Dinero dinero = tipoDiner.newInstance();
 		dinero.setCantidad(0);
 		
-		Criteria criteria = openSession().createCriteria(Transaccion.class, "trans");
+		Criteria criteria = openSession().createCriteria(Transaccion.class, "trans").add(Restrictions.eq("owner", username));
 		List<Transaccion> list = criteria.list();
 				
 		for(Transaccion transaccion : list){

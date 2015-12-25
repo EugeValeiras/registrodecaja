@@ -11,8 +11,16 @@ app.service('appService', function($http) {
 		$http.get('/getAllTransaccion').success(callback);
 	};
 
+	this.getTransaccionesOf = function(user, callback) {
+		$http.get('/getAllTransaccion/'+user).success(callback);
+	};
+	
 	this.crearTransaccion = function(transaccion, callback) {
 		$http.post('/crearTransaccion', transaccion).success(callback);
+	};
+	
+	this.crearTransaccionOf = function(user, transaccion, callback) {
+		$http.post('/crearTransaccion/'+user, transaccion).success(callback);
 	};
 	
 	this.borrarTransaccion = function(id, callback) {
@@ -23,15 +31,15 @@ app.service('appService', function($http) {
 		$http.get('/evaluarDolar').success(callback);
 	};
 	
-	this.argentinosEnCaja = function(callback) {
-		$http.get(self.urlPedido+'/Argentino').success(callback);
+	this.argentinosEnCaja = function(username, callback) {
+		$http.get('getCantidad/'+username+'/Argentino').success(callback);
 	};
 	
-	this.uruguayosEnCaja = function(callback) {
-		$http.get(self.urlPedido+'/Uruguayo').success(callback);
+	this.uruguayosEnCaja = function(username, callback) {
+		$http.get('getCantidad/'+username+'/Uruguayo').success(callback);
 	};
 	
-	this.dolaresEnCaja = function(callback) {
-		$http.get(self.urlPedido+'/Dolar').success(callback);
+	this.dolaresEnCaja = function(username, callback) {
+		$http.get('getCantidad/'+username+'/Dolar').success(callback);
 	};
 });

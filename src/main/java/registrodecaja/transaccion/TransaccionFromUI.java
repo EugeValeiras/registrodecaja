@@ -13,13 +13,14 @@ public class TransaccionFromUI {
 	private String usuario;
 	private String tipoMoneda;
 	private Date fecha;
+	private String owner;
 	
 	public Transaccion asTransaccion() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		@SuppressWarnings("unchecked")
 		Class<Dinero> tipoDiner = (Class<Dinero>) Class.forName("registrodecaja.model.dinero."+tipoMoneda);
 		Dinero dinero = tipoDiner.newInstance();
 		dinero.setCantidad(cantidad);
-		return new Transaccion(dinero, descripcion, TipoTransaccion.valueOf(tipoTransaccion), fecha, usuario);
+		return new Transaccion(dinero, descripcion, TipoTransaccion.valueOf(tipoTransaccion), fecha, usuario, owner);
 	}
 	
 	public int getCantidad() {
@@ -69,4 +70,13 @@ public class TransaccionFromUI {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+	
 }
