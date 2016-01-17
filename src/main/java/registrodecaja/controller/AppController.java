@@ -59,6 +59,9 @@ public class AppController {
 		} else if(form.username.equals("oficina") && form.password.equals("password")){
 			logAcc = form.username;
 			return "{\"status\" : 200, \"username\" : \"oficina\"}";
+		} else if(form.username.equals("merobaron") && form.password.equals("password")){
+			logAcc = form.username;
+			return "{\"status\" : 200, \"username\" : \"merobaron\"}";
 		} else {
 			throw new Exception();
 		}
@@ -79,7 +82,7 @@ public class AppController {
 		return model;
 	}
 	
-	@RequestMapping(value = {"/evaleiras", "/rgonzalez", "/oficina"} ,method = RequestMethod.GET)
+	@RequestMapping(value = {"/evaleiras", "/rgonzalez", "/oficina", "/merobaron"} ,method = RequestMethod.GET)
 	public ModelAndView root(){
 		ModelAndView model = new ModelAndView();
 		if(logAcc != null){
