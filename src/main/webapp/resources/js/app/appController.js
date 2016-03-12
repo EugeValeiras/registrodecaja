@@ -39,6 +39,14 @@ app.controller('appController', function($scope, $timeout, $interval, $compile, 
 	};
 	this.getTransacciones();
 	
+	this.getDolarNacion = function(){
+		appService.nacionPage(function(data){
+			debugger
+		})
+	}
+	this.getDolarNacion();
+	
+	
 	this.crearTransaccion = function(){
 		this.transaccion = new transaccionFromUI(self.selectedTipoMoneda, self.selectedTipoTransaccion, self.selectedUsuario, self.selectedCantidad, self.selectedDescripcion, self.username)
 		appService.crearTransaccion(this.transaccion, function(data){

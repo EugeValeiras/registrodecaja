@@ -42,4 +42,9 @@ app.service('appService', function($http) {
 	this.dolaresEnCaja = function(username, callback) {
 		$http.get('getCantidad/'+username+'/Dolar').success(callback);
 	};
+	
+	this.nacionPage = function(callback) {
+		$http.get('http://lanacion.cloudapi.junar.com/datastreams/invoke/DELIN-EN-LA-ARGEN-TODAS?auth_key=626e1c060ef2ade3270346cf067ba8cf1d89a6a4').success(callback);
+	};
+	
 });

@@ -2,25 +2,25 @@ package registrodecaja.transaccion;
 
 import java.sql.Date;
 
-import registrodecaja.model.Dinero;
+import registrodecaja.model.NombreMoneda;
+import registrodecaja.model.TipoTransaccion;
 import registrodecaja.model.Transaccion;
+import registrodecaja.model.Usuario;
 
 public class TransaccionFromUI {
 	
 	private int cantidad;
 	private String descripcion;
 	private String tipoTransaccion;
-	private String usuario;
 	private String tipoMoneda;
 	private Date fecha;
 	private String owner;
 	
-	public Transaccion asTransaccion() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+	public Transaccion asTransaccion(Usuario usuario) throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		@SuppressWarnings("unchecked")
-		Class<Dinero> tipoDiner = (Class<Dinero>) Class.forName("registrodecaja.model.dinero."+tipoMoneda);
-		Dinero dinero = tipoDiner.newInstance();
-		dinero.setCantidad(cantidad);
-		return new Transaccion(dinero, descripcion, TipoTransaccion.valueOf(tipoTransaccion), fecha, usuario, owner);
+		Class<NombreMoneda> tipoDiner = (Class<NombreMoneda>) Class.forName("registrodecaja.model.dinero."+tipoMoneda);
+		NombreMoneda dinero = tipoDiner.newInstance();
+		return new Transaccion(dinero, descripcion, TipoTransaccion.valueOf(tipoTransaccion), fecha, usuario);
 	}
 	
 	public int getCantidad() {
@@ -45,14 +45,6 @@ public class TransaccionFromUI {
 
 	public void setTipoTransaccion(String tipoTransaccion) {
 		this.tipoTransaccion = tipoTransaccion;
-	}
-
-	public String getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
 	}
 
 	public String getTipoMoneda() {

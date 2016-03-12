@@ -37,16 +37,16 @@ public class AppConfig {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
 		/*HEROKU*/
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net:3306/heroku_fa8eb9422d1df16");
-		dataSource.setUsername("bc629656bad916");
-		dataSource.setPassword("5748788a");
+//		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//		dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-03.cleardb.net:3306/heroku_fa8eb9422d1df16");
+//		dataSource.setUsername("bc629656bad916");
+//		dataSource.setPassword("5748788a");
 		
 		/*LOCAL*/
-//		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-//		dataSource.setUrl("jdbc:mysql://localhost:3306/caja");
-//		dataSource.setUsername("root");
-//		dataSource.setPassword("");
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/caja");
+		dataSource.setUsername("root");
+		dataSource.setPassword("");
 
 		return dataSource;
 	}

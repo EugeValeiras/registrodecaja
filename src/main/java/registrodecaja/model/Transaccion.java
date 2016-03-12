@@ -16,22 +16,20 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import registrodecaja.transaccion.TipoTransaccion;
-
 @Entity
 @Table(name = "Transaccion")
 public class Transaccion {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "id", unique = true)
-	private int id;
+	@Column(name = "transaccion_id", unique = true)
+	private Integer id;
 	
 	@NotNull
-	@JoinColumn( name = "dinero_id" )
+	@JoinColumn( name = "moneda_id" )
 	@OneToOne
 	@Cascade({CascadeType.SAVE_UPDATE})
-	private Dinero dinero;
+	private NombreMoneda nombreDeMoneda;
 
 	@Column(name = "descipcion")
 	private String descripcion;
@@ -42,32 +40,20 @@ public class Transaccion {
 	@Column(name = "fecha")
 	private Date fecha;
 	
-	@Column(name = "usuario")
-	private String usuario;
+	@OneToOne
+	@Cascade({CascadeType.ALL})
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
 	
-	@Column(name = "owner")
-	private String owner;
-	
-	public Transaccion(){
-	
-	}
+	public Transaccion(){ }
 
-	public Transaccion(Dinero dinero, String descripcion, TipoTransaccion tipoTransaccion, Date fecha, String usuario, String owner) {
+	public Transaccion(NombreMoneda dinero, String descripcion, TipoTransaccion tipoTransaccion, Date fecha, Usuario usuario) {
 		super();
-		this.dinero = dinero;
+		this.nombreDeMoneda = dinero;
 		this.descripcion = descripcion;
 		this.tipoTransaccion = tipoTransaccion;
 		this.fecha = fecha;
 		this.usuario = usuario;
-		this.owner = owner;
-	}
-
-	public Dinero getDinero() {
-		return dinero;
-	}
-
-	public void setDinero(Dinero dinero) {
-		this.dinero = dinero;
 	}
 
 	public String getDescripcion() {
@@ -94,26 +80,27 @@ public class Transaccion {
 		this.fecha = fecha;
 	}
 
-	public String getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(String usuario) {
+	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public int getId() {
+	
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getOwner() {
-		return owner;
+	public NombreMoneda getNombreDeMoneda() {
+		return nombreDeMoneda;
 	}
 
-	public void setOwner(String owner) {
-		this.owner = owner;
+	public void setNombreDeMoneda(NombreMoneda nombreDeMoneda) {
+		this.nombreDeMoneda = nombreDeMoneda;
 	}
-	
 }
